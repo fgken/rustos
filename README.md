@@ -9,5 +9,5 @@ Small Operation System written by Rust
 rake
 ```
 ## Running vOS
-Use (uefi-osloader)[https://github.com/fgken/uefi-osloader]
+Use [uefi-osloader](https://github.com/fgken/uefi-osloader)
 
