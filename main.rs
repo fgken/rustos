@@ -77,5 +77,7 @@ fn clear_screen(background: Color) {
 #[no_mangle]
 #[no_stack_check]
 pub fn main() {
+    loop{
+    }
     clear_screen(Color::LightRed);
 }
