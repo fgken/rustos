@@ -74,10 +74,14 @@ fn clear_screen(background: Color) {
     }
 }
 
+extern {
+    fn serial_out();
+}
+
 #[no_mangle]
 #[no_stack_check]
 pub fn main() {
-    loop{
-    }
+    unsafe { serial_out() };
     clear_screen(Color::LightRed);
+    loop{}
 }
