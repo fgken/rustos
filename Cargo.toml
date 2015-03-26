@@ -1,0 +1,9 @@
+[package]
+name = "vos"
+version = "0.0.1"
+authors = ["fg.bell.tree.333@gmail.com"]
+
+[lib]
+name = "vos"
+crate-type = ["staticlib"]
+
