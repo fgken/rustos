@@ -9,11 +9,26 @@ end
 BUILDDIR='bin/'
 
 directory BUILDDIR
-task :build => [BUILDDIR] do
+task :build => [BUILDDIR, 'bin/libc.a', 'bin/dummy.o'] do
 	sh 'cargo build'
 	sh "as head.S -o #{BUILDDIR}head.o"
-	sh "ld -O0 -T linker.ld --nostdlib -e_start #{BUILDDIR}head.o target/libvos-*.a -o #{BUILDDIR}vos"
+	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/libvos-*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o -o #{BUILDDIR}vos"
 	sh "objcopy -O binary #{BUILDDIR}vos #{BUILDDIR}vos.bin"
+end
+
+file BUILDDIR+'libc.a' do
+	sh 'wget ftp://sourceware.org/pub/newlib/newlib-2.2.0-1.tar.gz'
+	sh 'tar xf newlib-2.2.0-1.tar.gz'
+	rm 'newlib-2.2.0-1.tar.gz'
+	cd 'newlib-2.2.0-1/newlib/' do
+		sh './configure'
+		sh 'make -j 3'
+	end
+	cp 'newlib-2.2.0-1/newlib/libm.a', 'bin/libc.a'
+end
+
+file BUILDDIR+'dummy.o' => ['dummy.c'] do
+	sh "gcc -c -nostdlib dummy.c -o #{BUILDDIR}dummy.o"
 end
 
 # -------------------------
@@ -43,3 +58,12 @@ file RUNDIR+UEFIDIR+'UefiBootLoader.efi' => [RUNDIR+UEFIDIR] do
 	end
 end
 
+# -------------------------
+# --- rake clean ---
+# -------------------------
+task :clean do
+	rm 'Cargo.lock'
+	rm_r 'bin/'
+	rm_r 'run-dir/'
+	rm_r 'newlib-2.2.0-1/'
+end

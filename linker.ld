@@ -10,7 +10,7 @@ SECTIONS {
 	. = 0x7c00;
     .text : { *(.text) }
 
-	. = 0xA000;
+	. = 0xA0000;
 	.data : { *(.data) }
 
     /DISCARD/ : {

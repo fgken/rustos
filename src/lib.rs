@@ -31,8 +31,7 @@ pub extern fn kernel_main() {
         asm!("outb %0, %1" : : "a"(3), "dN"(0x3f8 + 3));
         asm!("outb %0, %1" : : "a"(8), "dN"(0x3f8 + 4));
         asm!("outb %0, %1" : : "a"(0x41), "dN"(0x3f8));
-        //for i in 0..3 {
-        loop {
+        for i in 0..3 {
             asm!("mov $$0x41, %al");
             asm!("mov $$0x3f8, %dx");
             asm!("out %al, %dx");
