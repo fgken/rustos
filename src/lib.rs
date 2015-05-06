@@ -1,27 +1,27 @@
 //#![crate_type="lib"]
-#![feature(lang_items, start, no_std, core, asm, libc)]
+#![feature(lang_items, start, no_std, core, asm)]
 #![no_std]
 
 extern crate core;
+use core::str::StrExt;
 
-use core::prelude::*;
+//use core::prelude::*;
 
-use core::mem;
-
-#[start]
-fn start(_argc: isize, _argv: *const *const u8) -> isize {
-    0
-}
-
-#[no_mangle]
-pub extern fn ppp() {
-    let x = 1;
-    match x {
-        0 => loop{},
-        _ => loop{},
+fn console_out(c: u8) {
+    unsafe {
+        asm!("mov %0, %al" : : "a"(c));
+        asm!("mov $$0x3f8, %dx");
+        asm!("out %al, %dx");
     }
 }
 
+fn printk(s: &str) {
+    for c in s.bytes() {
+        console_out(c);
+    }
+}
+
+//#[start]
 #[no_mangle]
 pub extern fn kernel_main() {
     unsafe {
@@ -38,6 +38,8 @@ pub extern fn kernel_main() {
             //asm!("outb %0, %1" : : "a"(0x41), "dN"(0x3f8));
         }
     }
+
+    printk("ABCDEFG");
 
     loop{}
 }
