@@ -14,8 +14,8 @@ task :build => [BUILDDIR, 'bin/libc.a', 'bin/dummy.o'] do
 	sh 'cargo build'
 	sh "as head.S -o #{BUILDDIR}head.o"
 	sh "gcc -c -nostdlib #{ASMCDIR}test.c -o #{BUILDDIR}test.o"
-	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/libvos-*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o #{BUILDDIR}test.o -o #{BUILDDIR}vos"
-	sh "objcopy -O binary #{BUILDDIR}vos #{BUILDDIR}vos.bin"
+	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/librustos-*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o #{BUILDDIR}test.o -o #{BUILDDIR}rustos"
+	sh "objcopy -O binary #{BUILDDIR}rustos #{BUILDDIR}rustos.bin"
 end
 
 file BUILDDIR+'libc.a' do
@@ -40,7 +40,7 @@ RUNDIR='run-dir/'
 UEFIDIR='image/EFI/BOOT/'
 
 task :run => [:build, RUNDIR+'OVMF.fd', RUNDIR+UEFIDIR+'UefiBootLoader.efi'] do
-	cp BUILDDIR+'vos', RUNDIR+'image/'
+	cp BUILDDIR+'rustos', RUNDIR+'image/'
 	sh 'qemu-system-x86_64 -nographic -bios OVMF.fd -hda fat:image -net none', {chdir: RUNDIR}, {}
 end
 

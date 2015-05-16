@@ -1,4 +1,4 @@
-vOS
+rustos
 ================
 
 ## Overview
@@ -8,11 +8,11 @@ Small Operation System written by Rust
 ```sh
 rake build
 ```
-## Running vOS
+## Running rustos
 ```sh
 rake run
 (into uefi shell on qemu)
-uefibootloader fs0:\vos
+uefibootloader fs0:\rustos
 ```
 
 * Using [uefi-bootloader](https://github.com/fgken/uefi-bootloader)
