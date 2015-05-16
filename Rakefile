@@ -7,12 +7,14 @@ end
 # --- rake build ---
 # -------------------------
 BUILDDIR='bin/'
+ASMCDIR='asm-c/'
 
 directory BUILDDIR
 task :build => [BUILDDIR, 'bin/libc.a', 'bin/dummy.o'] do
 	sh 'cargo build'
 	sh "as head.S -o #{BUILDDIR}head.o"
-	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/libvos-*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o -o #{BUILDDIR}vos"
+	sh "gcc -c -nostdlib #{ASMCDIR}test.c -o #{BUILDDIR}test.o"
+	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/libvos-*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o #{BUILDDIR}test.o -o #{BUILDDIR}vos"
 	sh "objcopy -O binary #{BUILDDIR}vos #{BUILDDIR}vos.bin"
 end
 
