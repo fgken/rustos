@@ -1,8 +1,8 @@
 //#![crate_type="lib"]
-#![feature(lang_items, start, no_std, core, asm)]
+#![feature(lang_items, start, no_std, asm, core_str_ext)]
 #![no_std]
 
-extern crate core;
+//extern crate core;
 use core::str::StrExt;
 
 //use core::prelude::*;

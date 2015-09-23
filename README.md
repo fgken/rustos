@@ -4,6 +4,12 @@ rustos
 ## Overview
 Small Operation System written by Rust
 
+## Requirements
+- Ruby
+- Rake
+- Rust 1.5-nightly
+- QEMU
+
 ## Building
 ```sh
 rake build

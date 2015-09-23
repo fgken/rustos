@@ -14,7 +14,7 @@ task :build => [BUILDDIR, 'bin/libc.a', 'bin/dummy.o'] do
 	sh 'cargo build'
 	sh "as head.S -o #{BUILDDIR}head.o"
 	sh "gcc -c -nostdlib #{ASMCDIR}test.c -o #{BUILDDIR}test.o"
-	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/librustos-*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o #{BUILDDIR}test.o -o #{BUILDDIR}rustos"
+	sh "ld -O0 -T linker.ld -nostdlib -e_start #{BUILDDIR}head.o target/debug/librustos*.a #{BUILDDIR}libc.a #{BUILDDIR}dummy.o #{BUILDDIR}test.o -o #{BUILDDIR}rustos"
 	sh "objcopy -O binary #{BUILDDIR}rustos #{BUILDDIR}rustos.bin"
 end
 
